@@ -15,8 +15,7 @@ public class FirestoreManager {
 
     public FirestoreManager(){
         setup();
-        pushData(null);
-        if(idPresentInDB(2)) System.out.println("present");
+        pushData(new TodoEntry("kads","jdklsa",1));
     }
 
 
@@ -36,11 +35,14 @@ public class FirestoreManager {
         }
     }
 
-    private void pushData(HashMap<String,TodoEntry> data){
+    private void pushData(TodoEntry entry){
         Random random = new Random();
         int id = random.nextInt();
+        while(idPresentInDB(id)){
+            id = random.nextInt();
+        }
 
-        ApiFuture<WriteResult> future = db.collection(collectionName).document("two").set(new TodoEntry("test","tuesday",1).getAsHashMap());
+        ApiFuture<WriteResult> future = db.collection(collectionName).document(String.valueOf(id)).set(entry.getAsHashMap());
         try {
             System.out.println(future.get().getUpdateTime());
         } catch (InterruptedException e) {
@@ -52,10 +54,17 @@ public class FirestoreManager {
 
     }
 
-    private boolean idPresentInDB(int id){
-        CollectionReference tasks = db.collection(collectionName);
-        DocumentReference docRef = tasks.document(String.valueOf(id));
-        return false;
+    private boolean idPresentInDB(int id) {
 
+        try {
+            CollectionReference tasks = db.collection(collectionName);
+            DocumentReference docRef = tasks.document(String.valueOf(id));
+            DocumentSnapshot documentSnapshot = docRef.get().get();
+            return documentSnapshot.exists();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+
+        }
     }
 }
