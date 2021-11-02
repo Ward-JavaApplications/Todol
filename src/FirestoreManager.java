@@ -3,10 +3,7 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.*;
 
 import java.io.FileInputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 public class FirestoreManager {
@@ -15,7 +12,7 @@ public class FirestoreManager {
 
     public FirestoreManager(){
         setup();
-        pushData(new TodoEntry("kads","jdklsa",1));
+        getAllData();
     }
 
 
@@ -35,7 +32,23 @@ public class FirestoreManager {
         }
     }
 
-    private void pushData(TodoEntry entry){
+    public ArrayList<TodoEntry> getAllData(){
+        try {
+            CollectionReference tasks = db.collection(collectionName);
+            List<QueryDocumentSnapshot> documents = tasks.get().get().getDocuments();
+            ArrayList<TodoEntry> taskList = new ArrayList<>();
+            for (QueryDocumentSnapshot documentSnapshot : documents) {
+                taskList.add(new TodoEntry(documentSnapshot.getString("task"), documentSnapshot.getString("taskDay"),Integer.parseInt(documentSnapshot.getString("priority")), Integer.parseInt(documentSnapshot.getId())));
+            }
+            return taskList;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void pushData(TodoEntry entry){
         Random random = new Random();
         int id = random.nextInt();
         while(idPresentInDB(id)){

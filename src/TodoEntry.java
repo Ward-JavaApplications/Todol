@@ -13,6 +13,13 @@ public class TodoEntry {
         this.priority = priority;
     }
 
+    public TodoEntry(String text, String taskDay, int priority, int id) {
+        this.text = text;
+        this.taskDay = taskDay;
+        this.priority = priority;
+        this.id = id;
+    }
+
     public String getText() {
         return text;
     }
