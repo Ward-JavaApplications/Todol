@@ -1,19 +1,22 @@
+package Containers;
+
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class TodoEntry {
     private String text;
-    private String taskDay;
-    private int priority;
+    private Date taskDay;
+    private long priority;
     private int id;
 
-    public TodoEntry(String text, String taskDay, int priority) {
+    public TodoEntry(String text, Date taskDay, long priority) {
         this.text = text;
         this.taskDay = taskDay;
         this.priority = priority;
     }
 
-    public TodoEntry(String text, String taskDay, int priority, int id) {
+    public TodoEntry(String text, Date taskDay, long priority, int id) {
         this.text = text;
         this.taskDay = taskDay;
         this.priority = priority;
@@ -28,15 +31,15 @@ public class TodoEntry {
         this.text = text;
     }
 
-    public String getTaskDay() {
+    public Date getTaskDay() {
         return taskDay;
     }
 
-    public void setTaskDay(String taskDay) {
+    public void setTaskDay(Date taskDay) {
         this.taskDay = taskDay;
     }
 
-    public int getPriority() {
+    public long getPriority() {
         return priority;
     }
 
@@ -52,11 +55,11 @@ public class TodoEntry {
         this.id = id;
     }
 
-    public HashMap<String,String> getAsHashMap(){
-        HashMap<String,String> data = new HashMap<>();
-        data.put("priority", String.valueOf(priority));
+    public HashMap<String,Object> getAsHashMap(){
+        HashMap<String,Object> data = new HashMap<>();
+        data.put("priority", priority);
         data.put("task",text);
-        data.put("taskDay",taskDay);
+        data.put("taskDay",taskDay.getTime());
         return data;
 
     }

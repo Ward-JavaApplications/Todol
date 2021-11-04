@@ -1,3 +1,6 @@
+package Managers;
+
+import Containers.TodoEntry;
 import com.google.api.core.ApiFuture;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.*;
@@ -12,7 +15,6 @@ public class FirestoreManager {
 
     public FirestoreManager(){
         setup();
-        getAllData();
     }
 
 
@@ -38,7 +40,9 @@ public class FirestoreManager {
             List<QueryDocumentSnapshot> documents = tasks.get().get().getDocuments();
             ArrayList<TodoEntry> taskList = new ArrayList<>();
             for (QueryDocumentSnapshot documentSnapshot : documents) {
-                taskList.add(new TodoEntry(documentSnapshot.getString("task"), documentSnapshot.getString("taskDay"),Integer.parseInt(documentSnapshot.getString("priority")), Integer.parseInt(documentSnapshot.getId())));
+                Date date = new Date();
+                date.setTime(documentSnapshot.getLong("taskDay"));
+                taskList.add(new TodoEntry(documentSnapshot.getString("task"),date ,documentSnapshot.getLong("priority"), Integer.parseInt(documentSnapshot.getId())));
             }
             return taskList;
         }
@@ -55,16 +59,7 @@ public class FirestoreManager {
             id = random.nextInt();
         }
 
-        ApiFuture<WriteResult> future = db.collection(collectionName).document(String.valueOf(id)).set(entry.getAsHashMap());
-        try {
-            System.out.println(future.get().getUpdateTime());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-
-
+        db.collection(collectionName).document(String.valueOf(id)).set(entry.getAsHashMap());
     }
 
     private boolean idPresentInDB(int id) {
