@@ -75,4 +75,14 @@ public class FirestoreManager {
 
         }
     }
+
+    public void deleteEntry(TodoEntry entry){
+        DocumentReference ref = db.collection(collectionName).document(String.valueOf(entry.getId()));
+        ref.delete();
+    }
+
+    public void changeEntry(TodoEntry newEntry){
+        DocumentReference ref = db.collection(collectionName).document(String.valueOf(newEntry.getId()));
+        ref.set(newEntry.getAsHashMap());
+    }
 }

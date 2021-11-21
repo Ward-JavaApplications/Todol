@@ -10,12 +10,15 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class GUIManager {
+    private JFrame frame;
     public GUIManager(){
-        JFrame frame = initialize();
+         this.frame = initialize();
+         getAllEntries();
+    }
+
+    private void getAllEntries(){
         frame.setContentPane(getMainPanel());
         frame.setVisible(true);
-
-
     }
 
     private JFrame initialize(){
@@ -44,11 +47,15 @@ public class GUIManager {
             }
         });
         for(TodoEntry entry: data){
-            mainPanel.add(new TaskTile(entry));
+            mainPanel.add(new TaskTile(entry,manager,this));
         }
         JScrollPane scrollPane = new JScrollPane(mainPanel);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         return scrollPane;
+    }
+
+    public void repaintEntrys(){
+        getAllEntries();
     }
 
 
