@@ -15,13 +15,21 @@ public class EditEntryFrame{
         this.entry = entry;
         this.parentManager = parentManager;
         this.firestoreManager = firestoreManager;
-        JFrame frame = initialize();
+        JFrame frame = initialize("Edit " + entry.getText());
         frame.setContentPane(new EditEntryPanel().getJPanelFromEntry(entry,firestoreManager,parentManager));
         frame.setVisible(true);
     }
 
-    private JFrame initialize(){
-        JFrame frame = new JFrame("Edit " + entry.getText());
+    public EditEntryFrame(FirestoreManager firestoreManager,GUIManager parentManager){
+        this.parentManager = parentManager;
+        this.firestoreManager = firestoreManager;
+        JFrame frame = initialize("Create new entry");
+        frame.setContentPane(new EditEntryPanel().getJPanelNew(firestoreManager,parentManager));
+        frame.setVisible(true);
+    }
+
+    private JFrame initialize(String titleText){
+        JFrame frame = new JFrame(titleText);
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setSize((int)d.getWidth()/4,(int)d.getHeight()/4);
         frame.setLocationRelativeTo(null);

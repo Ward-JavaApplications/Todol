@@ -52,13 +52,17 @@ public class FirestoreManager {
         }
     }
 
-    public void pushData(TodoEntry entry){
+    public int getNewId(){
         Random random = new Random();
         int id = random.nextInt();
         while(idPresentInDB(id)){
             id = random.nextInt();
         }
+        return id;
+    }
 
+    public void pushData(TodoEntry entry){
+        int id = getNewId();
         db.collection(collectionName).document(String.valueOf(id)).set(entry.getAsHashMap());
     }
 

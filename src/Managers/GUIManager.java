@@ -1,6 +1,7 @@
 package Managers;
 
 import Containers.TodoEntry;
+import GUIElements.EditEntryFrame;
 import GUIElements.TaskTile;
 import com.google.cloud.firestore.Firestore;
 
@@ -46,9 +47,14 @@ public class GUIManager {
 
             }
         });
+        JButton newEntryButton = new JButton("Add new entry");
+        newEntryButton.addActionListener(a-> new EditEntryFrame(manager,this));
+        mainPanel.add(newEntryButton);
         for(TodoEntry entry: data){
             mainPanel.add(new TaskTile(entry,manager,this));
         }
+        //add a new entry button
+
         JScrollPane scrollPane = new JScrollPane(mainPanel);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         return scrollPane;

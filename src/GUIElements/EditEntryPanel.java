@@ -19,12 +19,14 @@ public class EditEntryPanel {
     private JCalendar calendar = null;
     private JSpinner spinner = null;
     private JButton button = null;
+    private int entryID = 0;
 
     public EditEntryPanel(){    }
     public JPanel getJPanelFromEntry(TodoEntry entry,FirestoreManager firestoreManager,GUIManager parentManager){
         this.parentManager = parentManager;
         this.firestoreManager = firestoreManager;
         this.entry = entry;
+        this.entryID = entry.getId();
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel,BoxLayout.Y_AXIS));
         mainPanel.add(textPanel(entry.getText()));
@@ -34,7 +36,10 @@ public class EditEntryPanel {
         return mainPanel;
     }
 
-    public JPanel getJPanelNew(){
+    public JPanel getJPanelNew(FirestoreManager firestoreManager,GUIManager parentManager){
+        this.parentManager = parentManager;
+        this.firestoreManager = firestoreManager;
+        this.entryID = firestoreManager.getNewId();
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel,BoxLayout.Y_AXIS));
         mainPanel.add(textPanel(""));
@@ -76,7 +81,7 @@ public class EditEntryPanel {
     }
 
     private void saveEntry(){
-        firestoreManager.changeEntry(new TodoEntry(textField.getText(),calendar.getDate(),((Number)spinner.getValue()).longValue(),entry.getId()));
+        firestoreManager.changeEntry(new TodoEntry(textField.getText(),calendar.getDate(),((Number)spinner.getValue()).longValue(),entryID));
         parentManager.repaintEntrys();
     }
 }
