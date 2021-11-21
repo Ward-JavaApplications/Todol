@@ -1,0 +1,2 @@
+sorting van de entries die binnen komen
+De date op een betere manier weergeven
