@@ -1,5 +1,6 @@
 package Containers;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,6 +34,11 @@ public class TodoEntry {
 
     public Date getTaskDay() {
         return taskDay;
+    }
+
+    public String getTaskDayParsed(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE dd MMM yyyy");
+        return dateFormat.format(taskDay);
     }
 
     public void setTaskDay(Date taskDay) {

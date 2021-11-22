@@ -3,12 +3,14 @@ package GUIElements;
 import javax.swing.*;
 import java.awt.*;
 
-public class DefaultLabel extends JLabel {
+public class DefaultLabel{
+    private JLabel label = null;
     DefaultLabel(String text){
-        super(text,SwingConstants.CENTER);
-        super.setFont(this.getFont().deriveFont(100));
-        super.repaint();
-        super.revalidate();
-
+        label = new JLabel(text,SwingConstants.CENTER);
+        label.setForeground(Color.WHITE);
+        label.setFont(label.getFont().deriveFont(100));
+    }
+    public JLabel getLabel(){
+        return label;
     }
 }

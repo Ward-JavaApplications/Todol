@@ -47,9 +47,7 @@ public class GUIManager {
 
             }
         });
-        JButton newEntryButton = new JButton("Add new entry");
-        newEntryButton.addActionListener(a-> new EditEntryFrame(manager,this));
-        mainPanel.add(newEntryButton);
+        mainPanel.add(getNewEntryButton(manager));
         for(TodoEntry entry: data){
             mainPanel.add(new TaskTile(entry,manager,this));
         }
@@ -58,6 +56,14 @@ public class GUIManager {
         JScrollPane scrollPane = new JScrollPane(mainPanel);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         return scrollPane;
+    }
+    public JPanel getNewEntryButton(FirestoreManager manager){
+        JButton newEntryButton = new JButton("Add new entry");
+        newEntryButton.addActionListener(a-> new EditEntryFrame(manager,this));
+        JPanel panel = new JPanel(new FlowLayout());
+        panel.add(newEntryButton);
+        panel.setBackground(Color.BLACK);
+        return panel;
     }
 
     public void repaintEntrys(){

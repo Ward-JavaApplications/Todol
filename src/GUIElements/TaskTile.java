@@ -26,10 +26,11 @@ public class TaskTile extends JPanel {
         this.thisEntry = entry;
         this.parentGUI = parentGUI;
         setLayout(new FlowLayout());
-        setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        add(new DefaultLabel(entry.getText()));
-        add(new DefaultLabel(entry.getTaskDay().toString()));
-        add(new DefaultLabel(String.valueOf(entry.getPriority())));
+        setBorder(BorderFactory.createLineBorder(Color.WHITE));
+        setBackground(Color.BLACK);
+        add(new DefaultLabel(entry.getText()).getLabel());
+        add(new DefaultLabel(entry.getTaskDayParsed()).getLabel());
+        add(getPriorityLabel(String.valueOf(entry.getPriority()),entry.getPriority()));
         addEditButton();
         addDeleteButton();
 
@@ -66,6 +67,33 @@ public class TaskTile extends JPanel {
             e.printStackTrace();
         }
 
+    }
+
+    private JLabel getPriorityLabel(String priority,long pri){
+        JLabel label = new JLabel(priority);
+        Color color = null;
+        switch ((int)pri){
+            case(0):
+                color = Color.BLACK;
+                break;
+            case(1):
+                color = Color.GRAY;
+                break;
+            case(2):
+                color = Color.CYAN;
+                break;
+            case(3):
+                color = Color.YELLOW;
+                break;
+            case(4):
+                color = Color.ORANGE;
+                break;
+            case(5):
+                color = Color.RED;
+                break;
+        }
+        label.setForeground(color);
+        return label;
     }
 
     private void editEntry(){

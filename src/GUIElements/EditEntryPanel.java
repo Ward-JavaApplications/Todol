@@ -7,6 +7,7 @@ import com.toedter.calendar.JCalendar;
 
 import javax.swing.*;
 import java.awt.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.jar.JarEntry;
 
@@ -43,7 +44,8 @@ public class EditEntryPanel {
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel,BoxLayout.Y_AXIS));
         mainPanel.add(textPanel(""));
-        mainPanel.add(datePanel(new Date()));
+        Date newDate = new Date();
+        mainPanel.add(datePanel(new Date((newDate.getTime()/86400000)*86400000)));
         mainPanel.add(priorityPanel(0));
         mainPanel.add(saveButtonPanel());
         return mainPanel;
